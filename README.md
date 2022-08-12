@@ -15,7 +15,7 @@ Since, Huge NFT platforms like OpenSea supports the feature of lazyminting on et
 - Lazy minting fosters liquidity since NFTs can only be transferred after being sold. This helps prevent sellers from being left with a collection of minted, unsold NFTs, and buyers aren’t left waiting indefinitely for the NFT to be transferred to them.
 
 ## Contracts
-There are two contracts made to implement the lazyminting process. One is custom-made to handle the [FA2 token](contracts/fa2.py) transactions and other is to [lazymint](contracts/lazymint.py) i.e validate the voucher and mint the corresponding NFT according to the data mentioned in the voucher.
+There are two contracts made to implement the lazyminting process. One is custom-made to handle the [FA2 token](contracts/fa2.py) transactions and other is to [lazymint](contracts/lazymint.py) i.e validate the voucher and mint the corresponding NFT according to the data mentioned in the voucher. Sample Parameters are available [here](tests)
 
 ## 
 #### [FA2 Contract](https://better-call.dev/jakartanet/KT1LPSGeRj4FENhm9anHJUQy9epAwtttDwLh)
