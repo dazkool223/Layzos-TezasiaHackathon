@@ -17,6 +17,10 @@ Since, Huge NFT platforms like OpenSea supports the feature of lazyminting on et
 ## Contracts
 There are two contracts made to implement the lazyminting process. One is custom-made to handle the [FA2 token](contracts/fa2.py) transactions and other is to [lazymint](contracts/lazymint.py) i.e validate the voucher and mint the corresponding NFT according to the data mentioned in the voucher. Sample Parameters are available [here](tests)
 
+## Future Scopes
+- Validation of chain_ids to further enhance the security of the vouchers so that a voucher made on a testnet cannot be redeemed on the mainnet.
+- Addition of Minting Roles
+- Implementing Collections and Royalties to the token owner during each transaction of the NFT.
 ## 
 #### [FA2 Contract](https://better-call.dev/jakartanet/KT1LPSGeRj4FENhm9anHJUQy9epAwtttDwLh)
 #### [LazyMint Contract](https://jakartanet.tzkt.io/KT1Jj1V78iFm4m7ayqijkWXQvQKXhTNmeTGY)
