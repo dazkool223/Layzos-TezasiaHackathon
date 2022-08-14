@@ -22,8 +22,8 @@ There are two contracts made to implement the lazyminting process. One is custom
 - Addition of Minting Roles
 - Implementing Collections and Royalties to the token owner during each transaction of the NFT.
 ## 
-#### [FA2 Contract](https://better-call.dev/jakartanet/KT1LPSGeRj4FENhm9anHJUQy9epAwtttDwLh)
-#### [LazyMint Contract](https://jakartanet.tzkt.io/KT1Jj1V78iFm4m7ayqijkWXQvQKXhTNmeTGY)
+#### [FA2 Contract](https://better-call.dev/jakartanet/KT1XkZjMpL5R2aZ5PWTrn1e6tzfBRLAxSdkD/)
+#### [LazyMint Contract](https://better-call.dev/jakartanet/KT1SiBT7p6SZM64LBPJZN5GFYQbxUpMXQuQH)
 #### [Video Demo](https://drive.google.com/file/d/1UThdol3o9yYTmX3zv5EiQWI68XSg9h44/view?usp=drivesdk)
 ### References
 - [What is Cryptographic Signature ?](https://docs.microsoft.com/en-us/dotnet/standard/security/cryptographic-signatures)
