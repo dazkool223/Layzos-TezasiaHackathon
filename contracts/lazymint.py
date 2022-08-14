@@ -6,7 +6,7 @@ are sent to the redeem() along with the redeemers address
 then the function :
 1. verifies the signature that the message is actually signed by the tokenOwner.
 2. mints the token with appropriate data fields with the fa2.mint() on the address of the tokenOwner.
-3. transfers the token from the tokenOwner to redeemer with the fa2.mint().
+3. transfers the token from the tokenOwner to redeemer.
 4. invalidates the voucher so that it is not used again.
 
 this function is called by the redeemer.
@@ -27,9 +27,11 @@ class Types:
         signature=sp.TSignature,
         publickey=sp.TKey,
     )
-    TRANSFER = sp.TRecord(
-        from_=sp.TAddress,
-        txs=sp.TRecord(to_=sp.TAddress, token_id=sp.TNat, amount=sp.TNat),
+    TRANSFER = sp.TList(
+        sp.TRecord(
+            from_=sp.TAddress,
+            txs=sp.TList(sp.TRecord(to_=sp.TAddress, token_id=sp.TNat, amount=sp.TNat)),
+        )
     )
 
 
@@ -39,7 +41,6 @@ class Types:
 class LazyMint(sp.Contract):
     def __init__(
         self,
-        admin,
         contractAddress,
         counter=sp.nat(0),
         invalidated_voucher=sp.big_map(),
@@ -47,8 +48,6 @@ class LazyMint(sp.Contract):
 
         self.init_type(
             sp.TRecord(
-                # admin for initialise the contract
-                admin=sp.TAddress,
                 # bigmap to maintain record of minted tokens
                 counter=sp.TNat,
                 contractAddress=sp.TAddress,
@@ -58,8 +57,7 @@ class LazyMint(sp.Contract):
 
         # initialise the storage
         self.init(
-            admin=admin,
-            contractAddress=sp.address("KT1LPSGeRj4FENhm9anHJUQy9epAwtttDwLh"),
+            contractAddress=sp.address("KT1XkZjMpL5R2aZ5PWTrn1e6tzfBRLAxSdkD"),
             counter=0,
             invalidated_voucher=sp.big_map(),
         )
@@ -117,12 +115,21 @@ class LazyMint(sp.Contract):
             address=self.data.contractAddress,
             entry_point="transfer",
         ).open_some()
+        arg = [
+            sp.record(
+                from_=message.tokenOwner,
+                txs=[
+                    sp.record(
+                        to_=redeemer,
+                        token_id=message.tokenId,
+                        amount=sp.nat(1),
+                    )
+                ],
+            )
+        ]
 
         sp.transfer(
-            arg=sp.record(
-                from_=message.tokenOwner,
-                txs=sp.record(to_=redeemer, token_id=message.tokenId, amount=sp.nat(1)),
-            ),
+            arg=arg,
             amount=sp.mutez(0),
             destination=fa2transfer,
         )
@@ -131,4 +138,3 @@ class LazyMint(sp.Contract):
         # Invalidate the voucher to further prevent it to mint on the other marketplaces
         digest = sp.pack(voucher.message)
         self.data.invalidated_voucher[digest] = sp.bool(True)
-

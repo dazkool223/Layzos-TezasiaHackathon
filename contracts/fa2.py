@@ -49,12 +49,10 @@ class Types:
 
 
 class Token(sp.Contract):
-    def __init__(self, administrator):
+    def __init__(self):
         # type setting of class
         self.init_type(
             sp.TRecord(
-                # address of admin
-                administrator=sp.TAddress,
                 # ledger where tokenOwners are listed
                 ledger=sp.TBigMap(Types.LEDGER_KEY, sp.TNat),
                 # counter that keeps track of total minted tokens
@@ -70,7 +68,6 @@ class Token(sp.Contract):
             )
         )
         self.init(
-            administrator=administrator,
             ledger=sp.big_map(),
             counter=sp.nat(0),
             supply=sp.big_map(),
@@ -79,16 +76,12 @@ class Token(sp.Contract):
             operators=sp.big_map(),
         )
 
-    def check_is_administrator(self):
-        sp.verify(sp.sender == self.data.administrator, message="FA2_NOT_ADMIN")
-
     def check_token_exists(self, token_id):
-        sp.verify(token_id < self.data.counter, message="FA2_TOKEN_UNDEFINED")
+        sp.verify(token_id <= self.data.counter, message="FA2_TOKEN_UNDEFINED")
 
     @sp.entry_point
     def mint(self, params):
         sp.set_type(params, Types.VOUCHER)
-        self.check_is_administrator()
 
         # updating the values in storage
 
@@ -128,10 +121,6 @@ class Token(sp.Contract):
                 with sp.if_(tx.amount > 0):
                     # Remove the token amount from the owner
                     owner_key = sp.pair(owner, token_id)
-                    self.data.ledger[owner_key] = sp.as_nat(
-                        self.data.ledger.get(owner_key, 0) - tx.amount,
-                        "FA2_INSUFFICIENT_BALANCE",
-                    )
 
                     # Add the token amount to the new owner
                     new_owner_key = sp.pair(tx.to_, token_id)
