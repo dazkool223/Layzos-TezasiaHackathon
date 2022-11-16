@@ -1,5 +1,5 @@
 # Layzos - Future For Gas-free Minting
->First implemention of a smart contract that supports lazymint on tezos
+>First implemention of a smart contract that supports lazymint on Tezos
 
 ## Overview
 Due to lazy minting, it's possible to defer the cost of minting an NFT until the moment it's sold to its first buyer. The gas fees for minting are rolled into the same transaction that assigns the NFT to the buyer, so the NFT creator never has to pay to mint. Instead, a portion of the purchase price simply goes to cover the additional gas needed to create the initial NFT record. The basic premise of lazy minting is that instead of creating an NFT directly by calling a contract function, the NFT creator prepares a *cryptographic signature* of some data using their Tezos account's private key. The signed data acts as a "voucher" that can be redeemed for an NFT. The voucher contains all the information that will go into the actual NFT, and it may optionally contain additional data that isn't recorded in the blockchain. The signature proves that the NFT creator authorised the creation of the specific NFT described in the voucher.
